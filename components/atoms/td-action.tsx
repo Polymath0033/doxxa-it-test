@@ -9,7 +9,7 @@ export const TDAction: FC<{ name: number; id: string; title: string }> = ({
   const [action, setAction] = useState(false);
   const actionHandler = () => setAction(!action);
   return (
-    <td>
+    <td className="px-4 py-2">
       <div className="flex justify-between">
         <p>{name}</p>
         <button type="button" className="relative" onClick={actionHandler}>
@@ -27,12 +27,14 @@ export const TDAction: FC<{ name: number; id: string; title: string }> = ({
             />
           </svg>
 
-          <MoreActions
-            name={title}
-            id={id}
-            isOpen={action}
-            closeHandler={actionHandler}
-          />
+          {action && (
+            <MoreActions
+              name={title}
+              id={id}
+              isOpen={action}
+              closeHandler={actionHandler}
+            />
+          )}
         </button>
       </div>
     </td>

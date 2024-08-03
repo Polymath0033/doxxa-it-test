@@ -1,26 +1,31 @@
 "use client";
 import { FC } from "react";
 import { Modal } from "../atoms/modal";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { deleteInventory } from "@/lib/config";
+import { AppButton } from "../atoms/button";
 export const DeleteInventory: FC<{
   modal: boolean;
   closeHandler: () => void;
   id: string;
   name: string;
-}> = ({ modal, closeHandler, id, name }) => {
+  closeAction: () => void;
+}> = ({ modal, closeHandler, id, name, closeAction }) => {
   const dispatch = useAppDispatch();
+  const store = useAppSelector((state) => state.store);
   const deleteHandler = () => {
     dispatch(deleteInventory(id));
     closeHandler();
+    closeAction();
   };
+
   return (
     <Modal
       className="md:!w-[434px] !m-0"
       isOpen={modal}
       closeHandler={closeHandler}
     >
-      <div>
+      <div className="w-full ">
         <h3 className="text-red-500 !tracking-[-1.125px] font-bold text-2xl mb-3">
           Delete Inventory
         </h3>
@@ -29,27 +34,22 @@ export const DeleteInventory: FC<{
           <b className="font-bold "> ‘{name}’</b>?
         </p>
         <div className="flex justify-between items-center">
-          <button
+          <AppButton
             type="button"
-            className="bg-01 text-white px-4 py-2 rounded-lg"
+            className="!px-4 !py-2 !w-fit"
             onClick={closeHandler}
-          >
-            Cancel
-          </button>
-          <button
+            title=" Cancel"
+          />
+
+          <AppButton
+            loading={store.deleteLoading}
+            title="Delete"
             type="button"
-            className="bg-red-500 text-white px-4 py-2 rounded-lg"
             onClick={deleteHandler}
-          >
-            Delete
-          </button>
+            className="!bg-red-500 !w-fit !px-4 !py-2"
+          />
         </div>
       </div>
     </Modal>
-    // <div className="flex justify-center items-center">
-    //   <button className="bg-red-500 text-white px-4 py-2 rounded-lg">
-    //     Delete
-    //   </button>
-    // </div>
   );
 };

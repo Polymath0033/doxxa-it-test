@@ -32,7 +32,7 @@ export const deleteInventory = createAsyncThunk(
   "store/deleteInventory",
   async (id: string) => {
     const response = await apiConfig.delete(`/${id}`);
-    return response.data;
+    return { data: response.data, id };
   }
 );
 

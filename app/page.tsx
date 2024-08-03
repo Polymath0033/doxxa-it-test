@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <Fragment>
       <Header showModal={modalHandler} />
-      <AppMain />
+      <AppMain toggleModalHandler={modalHandler} modal={modal} />
     </Fragment>
   );
 }

@@ -24,7 +24,7 @@ export const Header: FC<{ showModal: () => void }> = ({ showModal }) => {
 
       <div>
         {/* <button type="button">Filter inventories</button> */}
-        <AddInventoryBtn />
+        <AddInventoryBtn toggleAddModal={showModal} />
       </div>
     </header>
   );

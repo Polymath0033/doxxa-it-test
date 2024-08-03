@@ -1,11 +1,11 @@
 "use client";
-import { storeActions } from "@/store/store-slice";
-import { useAppDispatch } from "@/hooks";
-export const AddInventoryBtn = () => {
-  const dispatch = useAppDispatch();
+import { FC } from "react";
+export const AddInventoryBtn: FC<{ toggleAddModal: () => void }> = ({
+  toggleAddModal,
+}) => {
   return (
     <button
-      onClick={() => dispatch(storeActions.toggleAddInventoryModal())}
+      onClick={toggleAddModal}
       type="button"
       className="bg-01 flex gap-3 text-white !tracking-[-0.25px] !leading-[15px] text-[15px] font-bold justify-between items-center p-2 rounded-3xl "
     >

@@ -2,17 +2,20 @@
 import { FC, useEffect, useState } from "react";
 import { Table } from "../table";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { _fetchInventories } from "@/lib/config";
+import { _fetchInventories, deleteInventory } from "@/lib/config";
 import { AddInventory } from "./add-inventory";
 import { AddInventoryBtn } from "../atoms/add-inventory-btn";
-export const AppMain: FC<{}> = () => {
+export const AppMain: FC<{
+  modal: boolean;
+  toggleModalHandler: () => void;
+}> = ({ modal, toggleModalHandler }) => {
   const [search, setSearch] = useState("");
   const store = useAppSelector((state) => state.store);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(_fetchInventories());
   }, [dispatch]);
-
+  const RenderContent = () => {};
   return (
     <main className="mt-12">
       <div className="mb-6">
@@ -54,23 +57,25 @@ export const AppMain: FC<{}> = () => {
           />
         </label>
       </div>
-      {store.isLoading && (
-        <h3 className="text-xl text-center font-bold ">Loading...</h3>
-      )}
-      {store.inventories.length < 1 ? (
+      {store.fetchError ? (
+        <p className="text-xl text-center mx-auto py-5 font-bold text-red-500">
+          {store.fetchError}
+        </p>
+      ) : !store.fetchLoading && store.inventories.length < 1 ? (
         <div className="flex justify-center flex-col gap-2 items-center">
           <h3 className="text-xl text-center font-bold ">No inventory found</h3>
-          <AddInventoryBtn />
+          <AddInventoryBtn toggleAddModal={toggleModalHandler} />
         </div>
       ) : (
         <Table
-          inventories={store.inventories.filter((inventory) =>
-            inventory.name.toLowerCase().includes(search.toLowerCase())
-          )}
+          inventories={store.inventories}
+          loading={store.fetchLoading}
           search={search}
         />
       )}
-      {store.addInventoryModal && <AddInventory />}
+      {modal && (
+        <AddInventory modalState={modal} closeHandler={toggleModalHandler} />
+      )}
     </main>
   );
 };
