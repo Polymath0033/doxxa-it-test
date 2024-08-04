@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { formatNumber } from "@/lib/number-formatter";
-import { TDAction } from "./atoms/td-action";
+import { TDAction } from "./td-action";
 import { InventoryData } from "@/types/inventory";
 
 export const Table: FC<{

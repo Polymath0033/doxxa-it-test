@@ -4,9 +4,9 @@ import { useAppSelector, useAppDispatch } from "@/hooks";
 import { fetchInventory } from "@/lib/config";
 import { formatNumber } from "@/lib/number-formatter";
 import { useRouter, useParams } from "next/navigation";
-import { LoadingPageComponent } from "./loading-page";
-import { UpdateInventory } from "../molecules/update-inventory";
-import { InventoryError } from "./inventory-error";
+import { LoadingPageComponent } from "../atoms/loading-page";
+import { UpdateInventory } from "./update-inventory";
+import { InventoryError } from "../atoms/inventory-error";
 import Head from "next/head";
 import Link from "next/link";
 export const Inventory: FC<{}> = ({}) => {

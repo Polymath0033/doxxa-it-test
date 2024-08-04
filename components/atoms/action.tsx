@@ -1,4 +1,5 @@
-import { FC, Fragment } from "react";
+"use client";
+import { FC, Fragment, useRef, useState, useEffect } from "react";
 import Link from "next/link";
 export const MoreActions: FC<{
   id: string;
@@ -6,6 +7,28 @@ export const MoreActions: FC<{
   updateModalHandler: () => void;
   deleteModalHandler: () => void;
 }> = ({ id, closeHandler, updateModalHandler, deleteModalHandler }) => {
+  const [position, setPosition] = useState<"up" | "down">("down");
+  const actionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const adjustPosition = () => {
+      if (actionRef.current) {
+        const rect = actionRef.current.getBoundingClientRect();
+        if (rect.bottom > window.innerHeight) {
+          setPosition("up");
+        } else {
+          setPosition("down");
+        }
+      }
+    };
+
+    adjustPosition();
+    window.addEventListener("resize", adjustPosition);
+
+    return () => {
+      window.removeEventListener("resize", adjustPosition);
+    };
+  }, []);
   return (
     <Fragment>
       <div
@@ -13,7 +36,12 @@ export const MoreActions: FC<{
         onClick={closeHandler}
       ></div>
 
-      <div className="bg-white absolute top-full right-0 rounded-xl justify-start *:text-start w-[135px] shadow-[0px_0px_25.061px_0px_rgba(161,_161,_161,_0.25)] flex flex-col gap-2 *:text-[15px] *:font-semibold text-08  px-3 py-4 z-20">
+      <div
+        ref={actionRef}
+        className={`bg-white absolute ${
+          position === "down" ? "top-full" : "bottom-full"
+        }  right-0 rounded-xl justify-start *:text-start w-[135px] shadow-[0px_0px_25.061px_0px_rgba(161,_161,_161,_0.25)] flex flex-col gap-2 *:text-[15px] *:font-semibold text-08  px-3 py-4 z-20`}
+      >
         <Link className="flex gap-2" href={`/${id}`}>
           {" "}
           <svg

@@ -1,4 +1,4 @@
-import { Inventory } from "@/components/atoms/Inventory";
+import { Inventory } from "@/components/molecules/Inventory";
 import React, { Suspense } from "react";
 import Loading from "./loading";
 

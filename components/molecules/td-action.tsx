@@ -1,8 +1,8 @@
 "use client";
 import { FC, Fragment, useEffect, useState } from "react";
-import { MoreActions } from "./action";
-import { UpdateInventory } from "../molecules/update-inventory";
-import { DeleteInventory } from "../molecules/delete-inventory";
+import { MoreActions } from "../atoms/action";
+import { UpdateInventory } from "./update-inventory";
+import { DeleteInventory } from "./delete-inventory";
 export const TDAction: FC<{ name: number; id: string; title: string }> = ({
   name,
   id,

@@ -59,9 +59,7 @@ export const AddInventory: FC<{
       if (!store.addError) {
         closeHandler();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

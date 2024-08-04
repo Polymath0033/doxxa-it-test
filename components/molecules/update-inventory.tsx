@@ -39,7 +39,7 @@ export const UpdateInventory: FC<{
   };
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(description, name, price, quantity, unitAvailable, category);
+
     const newErrors = validateInputs();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

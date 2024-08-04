@@ -1,6 +1,6 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { Table } from "../table";
+import { Table } from "./table";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { _fetchInventories, deleteInventory } from "@/lib/config";
 import { AddInventory } from "./add-inventory";

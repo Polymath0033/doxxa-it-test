@@ -48,7 +48,6 @@ const storeSlice = createSlice({
     });
     builder.addCase(_fetchInventories.rejected, (state, action) => {
       state.fetchLoading = false;
-      console.log(action);
       // state.fetchError = action.error.message ?? null;
       state.fetchError = "Failed to fetch inventories!";
     });

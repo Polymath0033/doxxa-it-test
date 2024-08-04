@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 //import { Inter } from "next/font/google";
 import { League_Spartan } from "next/font/google";
 import "./globals.css";
-import Wrapper from "@/components/Wrapper";
+import Wrapper from "@/components/atoms/Wrapper";
 import { LayoutWrapper } from "@/components/atoms/layout-wrapper";
 
 const leagueSpartan = League_Spartan({ subsets: ["latin"] });

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { _fetchInventories } from "@/lib/config";
-import { AddInventoryBtn } from "./add-inventory-btn";
+import { AddInventoryBtn } from "../atoms/add-inventory-btn";
 export const Header: FC<{ showModal: () => void }> = ({ showModal }) => {
   const store = useAppSelector((state) => state.store);
   const dispatch = useAppDispatch();
