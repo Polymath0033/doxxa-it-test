@@ -12,40 +12,28 @@ export const AddInventory: FC<{
   closeHandler: () => void;
 }> = ({ modalState, closeHandler }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Change all these useRef to useState
 
-  const inventoryNameRef = useRef<HTMLInputElement>(null);
-  const inventoryDescriptionRef = useRef<HTMLTextAreaElement>(null);
-  const inventoryPriceRef = useRef<HTMLInputElement>(null);
-  const inventoryQuantityRef = useRef<HTMLInputElement>(null);
-  const inventoryUnitAvailableRef = useRef<HTMLInputElement>(null);
-  const inventoryCategoryRef = useRef<HTMLInputElement>(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState<number | null>(null);
+  const [quantity, setQuantity] = useState<number | null>(null);
+  const [unitAvailable, setUnitAvailable] = useState<number | null>(null);
+  const [category, setCategory] = useState("");
 
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state.store);
 
   const validateInputs = () => {
     const newErrors: Record<string, string> = {};
-    if (!inventoryNameRef.current?.value.trim())
-      newErrors.name = "Name is required";
-    if (!inventoryDescriptionRef.current?.value.trim())
-      newErrors.description = "Description is required";
-    if (
-      !inventoryPriceRef.current?.value.trim() ||
-      isNaN(Number(inventoryPriceRef.current?.value))
-    )
-      newErrors.price = "Price must be a number";
-    if (
-      !inventoryQuantityRef.current?.value.trim() ||
-      isNaN(Number(inventoryQuantityRef.current?.value))
-    )
+    if (!name.trim()) newErrors.name = "Name is required";
+    if (!description.trim()) newErrors.description = "Description is required";
+    if (price && isNaN(price!)) newErrors.price = "Price must be a number";
+    if (quantity && isNaN(quantity!))
       newErrors.quantity = "Quantity must be a number";
-    if (
-      !inventoryUnitAvailableRef.current?.value.trim() ||
-      isNaN(Number(inventoryUnitAvailableRef.current?.value))
-    )
+    if (unitAvailable && isNaN(unitAvailable!))
       newErrors.unitAvailable = "Units available must be a number";
-    if (!inventoryCategoryRef.current?.value.trim())
-      newErrors.category = "Category is required";
+    if (!category.trim()) newErrors.category = "Category is required";
     return newErrors;
   };
 
@@ -60,15 +48,17 @@ export const AddInventory: FC<{
     try {
       await dispatch(
         addInventory({
-          name: inventoryNameRef.current?.value!,
-          description: inventoryDescriptionRef.current?.value!,
-          price: +inventoryPriceRef.current?.value!,
-          quantity: +inventoryQuantityRef.current?.value!,
-          unit_available: +inventoryUnitAvailableRef.current?.value!,
-          category: inventoryCategoryRef.current?.value!,
+          name: name,
+          description: description,
+          price: +price!,
+          quantity: +quantity!,
+          unit_available: +unitAvailable!,
+          category: category,
         })
       );
-      closeHandler();
+      if (!store.addError) {
+        closeHandler();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -80,12 +70,14 @@ export const AddInventory: FC<{
         <h3 className="text-01 !tracking-[-1.125px] font-bold text-2xl mb-3">
           Add Inventory
         </h3>
+
         <div className="mb-4">
           <AppInput
             id="inventory-name"
             title="Name"
             placeholder="Name of the inventory"
-            ref={inventoryNameRef}
+            value={name}
+            changeHandler={(e) => setName(e.target.value)}
             required
             error={errors.name}
           />
@@ -95,7 +87,8 @@ export const AddInventory: FC<{
             id="inventory-description"
             title="Description"
             placeholder="Description of the inventory"
-            ref={inventoryDescriptionRef}
+            value={description}
+            changeHandler={(e) => setDescription(e.target.value)}
             error={errors.description}
           />
         </div>
@@ -105,7 +98,8 @@ export const AddInventory: FC<{
             id="inventory-price"
             title="Price"
             placeholder="Inventory price"
-            ref={inventoryPriceRef}
+            value={price!}
+            changeHandler={(e) => setPrice(+e.target.value)}
             required
             error={errors.price}
           />
@@ -116,7 +110,8 @@ export const AddInventory: FC<{
             id="inventory-quantity"
             title="Quantity"
             placeholder="Inventory quantity"
-            ref={inventoryQuantityRef}
+            value={quantity!}
+            changeHandler={(e) => setQuantity(+e.target.value)}
             required
             error={errors.quantity}
           />
@@ -125,7 +120,8 @@ export const AddInventory: FC<{
             id="inventory-units_available"
             title="Units Available"
             placeholder="Units available"
-            ref={inventoryUnitAvailableRef}
+            value={unitAvailable!}
+            changeHandler={(e) => setUnitAvailable(+e.target.value)}
             required
             error={errors.unitAvailable}
           />
@@ -135,14 +131,12 @@ export const AddInventory: FC<{
             id="inventory-category"
             title="Category"
             placeholder="Category of the inventory"
-            ref={inventoryCategoryRef}
+            value={category}
+            changeHandler={(e) => setCategory(e.target.value)}
             required
             error={errors.category}
           />
         </div>
-        {store.addError && (
-          <p className="text-red-500 text-xs mt-1">{store.addError}</p>
-        )}
         <AppButton
           title="Add Inventory"
           loading={store.addLoading}

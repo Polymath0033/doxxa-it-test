@@ -36,7 +36,9 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 
 input[type="number"] {
+  -webkit-appearance: textfield;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* HTML: <div class="loader"></div> */
@@ -139,16 +141,77 @@ input[type="number"] {
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
+}
+
+.table-overflow::-webkit-scrollbar {
+  width: 2px;
+  height: 4px;
   background-color: #fff;
 }
 
-/* ::-webkit-scrollbar-track {
+.table-overflow::-webkit-scrollbar-track {
   border-radius: 16px;
 }
 
-::-webkit-scrollbar-thumb {
+.table-overflow::-webkit-scrollbar-thumb {
   border-radius: 16px;
   background-color: #dfe0e3;
   height: 10px;
   background-clip: content-box;
-} */
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Tailwind animation classes */
+
+.animate-toast-in {
+  animation: toast-in 0.3s forwards;
+}
+
+.animate-toast-out {
+  animation: toast-out 0.3s forwards;
+}
+
+.loading {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #7c5dfa 90%, #0000);
+  background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%;
+  }
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%;
+  }
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%;
+  }
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%;
+  }
+}

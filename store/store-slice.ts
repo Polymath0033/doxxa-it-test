@@ -1,4 +1,5 @@
 import { Inventory, InventoryData } from "@/types/inventory";
+import { InitialState } from "@/types/redux";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   _fetchInventories,
@@ -7,19 +8,7 @@ import {
   deleteInventory,
   fetchInventory,
 } from "@/lib/config";
-type InitialState = {
-  inventories: InventoryData[];
-  fetchLoading: boolean;
-  fetchError: null | string;
-  addLoading: boolean;
-  addError: null | string;
-  updateLoading: boolean;
-  updateError: null | string;
-  deleteLoading: boolean;
-  deleteError: null | string;
-  fetchSingleLoading: boolean;
-  fetchSingleError: null | string;
-};
+
 const initialState: InitialState = {
   inventories: [],
   fetchLoading: false,
@@ -30,13 +19,25 @@ const initialState: InitialState = {
   updateError: null,
   deleteLoading: false,
   deleteError: null,
+  inventory: null,
   fetchSingleLoading: false,
   fetchSingleError: null,
+  notification: null,
+  showNotification: false,
 };
 const storeSlice = createSlice({
   name: "store",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    _showNotification(state, action) {
+      state.showNotification = true;
+      state.notification = action.payload;
+    },
+    hideNotification(state) {
+      state.notification = null;
+      state.showNotification = false;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(_fetchInventories.pending, (state) => {
       state.fetchLoading = true;
@@ -83,7 +84,7 @@ const storeSlice = createSlice({
     builder.addCase(deleteInventory.fulfilled, (state, action) => {
       state.deleteLoading = false;
       state.inventories = state.inventories.filter(
-        (inventory) => inventory.id !== action.payload.id
+        (inventory) => action.payload && inventory.id !== action.payload.id
       );
     });
     builder.addCase(deleteInventory.rejected, (state, action) => {
@@ -91,12 +92,14 @@ const storeSlice = createSlice({
       // state.deleteError = action.error.message ?? null;
       state.deleteError = "Failed to delete this inventory!";
     });
+
     builder.addCase(fetchInventory.pending, (state) => {
       state.fetchSingleLoading = true;
     });
     builder.addCase(fetchInventory.fulfilled, (state, action) => {
       state.fetchSingleLoading = false;
-      state.inventories = action.payload;
+
+      state.inventory = action.payload;
     });
     builder.addCase(fetchInventory.rejected, (state, action) => {
       state.fetchSingleLoading = false;

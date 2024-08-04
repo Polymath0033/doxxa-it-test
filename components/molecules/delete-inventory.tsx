@@ -6,24 +6,26 @@ import { deleteInventory } from "@/lib/config";
 import { AppButton } from "../atoms/button";
 export const DeleteInventory: FC<{
   modal: boolean;
-  closeHandler: () => void;
+  modalHandler: () => void;
   id: string;
   name: string;
-  closeAction: () => void;
-}> = ({ modal, closeHandler, id, name, closeAction }) => {
+}> = ({ modal, modalHandler, id, name }) => {
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state.store);
-  const deleteHandler = () => {
-    dispatch(deleteInventory(id));
-    closeHandler();
-    closeAction();
+  const deleteHandler = async () => {
+    try {
+      await dispatch(deleteInventory(id));
+      if (!store.deleteError) {
+        modalHandler();
+      }
+    } catch (error) {}
   };
 
   return (
     <Modal
       className="md:!w-[434px] !m-0"
       isOpen={modal}
-      closeHandler={closeHandler}
+      closeHandler={modalHandler}
     >
       <div className="w-full ">
         <h3 className="text-red-500 !tracking-[-1.125px] font-bold text-2xl mb-3">
@@ -37,7 +39,7 @@ export const DeleteInventory: FC<{
           <AppButton
             type="button"
             className="!px-4 !py-2 !w-fit"
-            onClick={closeHandler}
+            onClick={modalHandler}
             title=" Cancel"
           />
 

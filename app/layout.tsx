@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { League_Spartan } from "next/font/google";
 import "./globals.css";
 import Wrapper from "@/components/Wrapper";
+import { LayoutWrapper } from "@/components/atoms/layout-wrapper";
+
 const leagueSpartan = League_Spartan({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,9 +23,7 @@ export default function RootLayout({
         <body
           className={`${leagueSpartan.className} p-4 md:p-20 overflow-y-auto bg-[#F8F8FB]`}
         >
-          <div id="backdrop-root"></div>
-          <div id="modal-root"></div>
-          {children}
+          <LayoutWrapper>{children}</LayoutWrapper>
         </body>
       </html>
     </Wrapper>

@@ -8,6 +8,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        "toast-in": "toast-in 0.3s forwards",
+        "toast-out": "toast-out 0.3s forwards",
+      },
+      keyframes: {
+        "toast-in": {
+          "0%": { opacity: "0", transform: "translateY(-20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "toast-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-20px)" },
+        },
+      },
       colors: {
         "01": "#7C5DFA",
         "05": "#DFE3FA",

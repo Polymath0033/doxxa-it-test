@@ -1,17 +1,15 @@
-import { ChangeEvent, ChangeEventHandler, FC, forwardRef } from "react";
+import { ChangeEvent, FC } from "react";
 //import { HTMLInputTypeAttribute, useState, forwardRef } from "react";
 
-export const AppTextarea = forwardRef<
-  HTMLTextAreaElement,
-  {
-    id: string;
-    title: string;
-    placeholder?: string;
-    className?: string;
-    defaultValue?: string;
-    error?: string;
-  }
->(({ id, title, placeholder, className, defaultValue, error }, ref) => {
+export const AppTextarea: FC<{
+  id: string;
+  title: string;
+  placeholder?: string;
+  className?: string;
+  error?: string;
+  value: string;
+  changeHandler: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+}> = ({ id, title, placeholder, className, error, value, changeHandler }) => {
   return (
     <div className={`${className} w-full`}>
       <label htmlFor={id} className="block">
@@ -27,13 +25,12 @@ export const AppTextarea = forwardRef<
             error ? "border-red-500" : ""
           }`}
           name={id}
-          defaultValue={defaultValue}
           required={true}
-          ref={ref}
+          value={value}
+          onChange={(e) => changeHandler(e)}
         ></textarea>
       </label>
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
-});
-AppTextarea.displayName = "AppTextarea";
+};

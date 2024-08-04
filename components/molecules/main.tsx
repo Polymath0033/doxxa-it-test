@@ -61,7 +61,7 @@ export const AppMain: FC<{
         <p className="text-xl text-center mx-auto py-5 font-bold text-red-500">
           {store.fetchError}
         </p>
-      ) : !store.fetchLoading && store.inventories.length < 1 ? (
+      ) : !store.fetchLoading && store.inventories?.length < 1 ? (
         <div className="flex justify-center flex-col gap-2 items-center">
           <h3 className="text-xl text-center font-bold ">No inventory found</h3>
           <AddInventoryBtn toggleAddModal={toggleModalHandler} />

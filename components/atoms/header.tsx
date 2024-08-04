@@ -17,8 +17,8 @@ export const Header: FC<{ showModal: () => void }> = ({ showModal }) => {
           <Link href="/">DoxxaIT Inventory</Link>
         </h1>
         <p className="text-06 text-[13px] !leading-[15px] !tracking-[0.1px]">
-          There are {store.inventories.length} total inventor
-          {store.inventories.length > 1 ? "ies" : "y"}
+          There are {store.inventories?.length} total inventor
+          {store.inventories?.length > 1 ? "ies" : "y"}
         </p>
       </div>
 
