@@ -9,7 +9,7 @@ import { UpdateInventory } from "../molecules/update-inventory";
 import { InventoryError } from "./inventory-error";
 import Head from "next/head";
 import Link from "next/link";
-export const Inventory: FC<{ id: string }> = ({ id }) => {
+export const Inventory: FC<{}> = ({}) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [showUpdateModal, setShowUpdateModal] = useState(false);
